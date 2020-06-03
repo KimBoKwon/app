@@ -34,6 +34,7 @@ def input_num(num):
         return "{}이 {} 무기를 사용 해서 이겼다.".format(dic["name"], dic["weapon"])
     elif num == 2:
         return '도망갔다'
+        
 
 @app.route('/login')
 def login():

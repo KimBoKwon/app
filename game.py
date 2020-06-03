@@ -19,3 +19,4 @@ def save_game(filename, di):
         print("%s:%s" % (key, di[key]))
         f.write("%s:%s\n" % (key, di[key]))
     f.closse()
+    
