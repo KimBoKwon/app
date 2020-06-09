@@ -3,6 +3,7 @@ app = Flask(__name__)
 
 import game
 import json
+import dbdb
 
 @app.route('/')
 def index():
@@ -64,8 +65,6 @@ def method():
     else:
         num = request.form['num'] #앞에 num은 저장할 변수 뒤에 num은 html에서 받아온 num값
         name = request.form['name']
-        with open("static/save.txt","w", encoding='utf-8') as f: 
-            f.write("%s,%s" % (num, name))
         print(num, name)
         return 'POST 이다. 학번은: {} 이름은: {}'.format(num, name)
 

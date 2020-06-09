@@ -5,6 +5,8 @@ myenv/
 
 save.txt
 
+*.db
+
 ### Code ###
 .vscode/*
 !.vscode/settings.json
