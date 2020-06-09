@@ -46,13 +46,14 @@ def login1():
     if request.method == 'GET':
         return 'GET으로 전송이다.'
     else:
-        id1 = request.form['id']
+        id = request.form['id']
         pw = request.form['pw']
-        print(id1, pw)
-        if id1 == "abc" and pw == '1234':
-            return '있는 계정입니다.'
+        print(id, pw)
+        ret = dbdb.select_user(id, pw)
+        if ret != None:
+            return "안녕하세요^^ {}님".format(id)
         else:
-            return '없는 계정입니다.'
+            return "아이디 패스워드를 확인하세요."
 
 @app.route('/form')
 def form():
@@ -66,13 +67,15 @@ def method():
         num = request.form['num'] #앞에 num은 저장할 변수 뒤에 num은 html에서 받아온 num값
         name = request.form['name']
         print(num, name)
+        dbdb.insert_data(num, name)
         return 'POST 이다. 학번은: {} 이름은: {}'.format(num, name)
 
 @app.route('/getinfo')
 def getinfo():
-    with open("static/save.txt", "r", encoding='utf-8') as file: 
-        student = file.read().split(',') #쉽표로 잘라서 student 에 배열로 저장 
-        return '번호 : {}, 이름 : {}'.format(student[0], student[1])
+    ret = dbdb.select_all()
+    print(ret)
+    return render_template('getinfo.html', data=ret)
+    # return '번호 : {}, 이름 : {}'.format(ret[0], ret[1])
 
 @app.route('/naver')
 def naver():
