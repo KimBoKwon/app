@@ -48,6 +48,20 @@ def select_user(id, pw):
         db.close()
     return ret
 
+def check_id(id):
+    ret = ()
+    try:
+        db = dbcon()
+        c = db.cursor()
+        setdata = (id)
+        c.execute('SELECT * FROM users WHERE id = ?', setdata)
+        ret = c.fetchone()
+    except Exception as e:
+        print('db error:', e)
+    finally:
+        db.close()
+    return ret
+
 def insert_data(num, name):
     try:
         db = dbcon()
@@ -91,5 +105,5 @@ def select_num(num):
 # insert_user('abc', '1234', '에비시')
 # insert_data('2020123', '디비')
 # ret = select_all()
-ret = select_user('abc', '1234')
-print(ret)
+# ret = select_user('abc', '1234')
+# print(ret)

@@ -7,7 +7,7 @@ import dbdb
 
 @app.route('/')
 def index():
-    return '메인페이지'
+    return render_template('main.html')
 
 @app.route('/hello/')
 def hello():
@@ -35,25 +35,41 @@ def input_num(num):
         return "{}이 {} 무기를 사용 해서 이겼다.".format(dic["name"], dic["weapon"])
     elif num == 2:
         return '도망갔다'
-        
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template('login.html')
-
-@app.route('/login1', methods=['GET', 'POST'])
-def login1():
     if request.method == 'GET':
-        return 'GET으로 전송이다.'
+        return render_template('login.html')
     else:
         id = request.form['id']
         pw = request.form['pw']
         print(id, pw)
         ret = dbdb.select_user(id, pw)
         if ret != None:
-            return "안녕하세요^^ {}님".format(id)
+            return "안녕하세요 ~ {}님".format(ret[2])
         else:
-            return "아이디 패스워드를 확인하세요."
+            return "아이디 혹은 패스워드를 잘못 입력하셨습니다."
+        
+
+@app.route('/join', methods=['GET', 'POST'])
+def join():
+    if request.method == 'GET':
+        return render_template('join.html')
+    else:
+        id = request.form['id']
+        pw = request.form['pw']
+        name = request.form['name']
+        ret = dbdb.check_id(id)
+        if ret != None:
+            return '''
+                    <script>
+                    alret('다른 아이디를 사용하세요');
+                    location.href='/join';
+                    </script>
+            '''
+        print(id, pw, name)
+        dbdb.insert_user(id, pw, name)
+        return redirect(url_for('login'))
 
 @app.route('/form')
 def form():
